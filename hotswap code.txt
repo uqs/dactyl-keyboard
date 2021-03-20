@@ -1,4 +1,19 @@
-	Here is the code I use for the hotswaps	
+	Here is the code I use for the hotswaps	  The below will need to be in your build file
+	
+	
+	
+	
+;@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+;;quality settings;;;;;;;;;;;
+;@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+(def wall-step 0.2)
+(def wall-sphere-n 30) ;;30 for high quality Sphere resolution, lower for faster renders mainly present on case edge top.  can effect wall thickness
+(def circle_facets 100)  ;;100 for high quality
+
+
+;@@@@@@@@@@@@@@@@@@@@@
+;switch hole code;;;;;
+;@@@@@@@@@@@@@@@@@@@@@
 			
 
 (def Kalih_features ;;Contains the solder points and the protruding circles
