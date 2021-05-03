@@ -5,11 +5,8 @@
             [scad-clj.model :refer :all]
             [unicode-math.core :refer :all]))
 
-
-(defn deg2rad [degrees]
-  (* (/ degrees 180) pi))
-
-  ;;Code as of 2/20/19
+(def nrows 5)
+(def ncols 6)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Shape parameters ;;
@@ -19,12 +16,11 @@
 ;;;;;;;;;Wrist rest;;;;;;;;;;		
 ;@@@@@@@@@@@@@@@@@@@@@@@@@@
 (def wrist-rest-on 1) 						;;0 for no rest 1 for a rest connection cut out in bottom case		
-(def wrist-rest-back-height 35)				;;height of the back of the wrist rest--Default 34
-(def wrist-rest-angle 20) 				 ;;angle of the wrist rest--Default 20
+(def wrist-rest-back-height 13.5)				;;height of the back of the wrist rest--Default 34
+(def wrist-rest-angle 2.5) 				 ;;angle of the wrist rest--Default 20
 (def wrist-rest-rotation-angle 9)			;;0 default The angle in counter clockwise the wrist rest is at		
-(def wrist-rest-ledge 3.5)					;;The height of ledge the silicone wrist rest fits inside
+(def wrist-rest-ledge 3.0)					;;The height of ledge the silicone wrist rest fits inside
 (def wrist-rest-y-angle 0)					;;0 Default.  Controls the wrist rest y axis tilt (left to right)
-
 
 ;;Wrist rest to case connections
 (def right_wrist_connecter_x   (if (== ncols 5) 13 25))
@@ -32,6 +28,7 @@
 (def left_wrist_connecter_x   (if (== ncols 5) -25 -25))
 (def wrist_right_nut_y (if (== ncols 5) 10 20.5))
 (def wrist_brse_position_x -1)
+(def wrist_brse_distance_y -52)     ;; Distance from wrist rest to keyboard
 
 ;@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ;;;;;;;;;bottom cover;;;;;;;;;;		
@@ -43,14 +40,10 @@
 ;;;;;;;;;random;;;;;;;;;;		
 ;@@@@@@@@@@-@@@@@@@@@@@@@@@@
 ;;;0= box 1=cherry 2= Alps
-(def switch-type 0)
+(def switch-type 0) ;;default 1
 
-(def nrows 5)
-(def ncols 6)
-
-
-										;;dfefault 1
-
+(defn deg2rad [degrees]
+  (* (/ degrees 180) pi))
 (def α (deg2rad 15))                        ;default 15 curvature of the columns
 (def β (deg2rad 5))                        ;default 5 curvature of the rows
 ;(def centerrow  2)
@@ -1173,7 +1166,7 @@
 	(difference 
 		(->> (union 
 		
-			(->> wrist-rest-base (translate [wrist_brse_position_x -32 0])(rotate  (/ (* π wrist-rest-rotation-angle) 180)  [0 0 1])) 
+			(->> wrist-rest-base (translate [wrist_brse_position_x wrist_brse_distance_y 0])(rotate  (/ (* π wrist-rest-rotation-angle) 180)  [0 0 1]))
 					(->> (difference
 				;wrist-rest-sides 
 							
@@ -1359,8 +1352,8 @@
 (spit "things/wrist-rest.scad"
       (write-scad wrist-rest-build))	  
 	  
-	
-	  
+(spit "things/wrist-rest-left.scad"
+      (write-scad (scale [-1,1,1] wrist-rest-build)))
 	  
 	  
 (spit "things/test.scad"
